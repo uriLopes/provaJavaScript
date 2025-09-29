@@ -1,0 +1,59 @@
+const readline = require('readline');
+
+class Cinema {
+    constructor() {
+        this.assentos = Array(4).fill().map(() => Array(4).fill(true));
+    }
+
+    mostrarAssentos() {
+        console.log("A B C D");
+        for (let i = 0; i < 4; i++) {
+            let linha = `${i+1} `;
+            for (let j = 0; j < 4; j++) {
+                linha += this.assentos[i][j] ? "O " : "X ";
+            }
+            console.log(linha);
+        }
+    }
+
+    comprar(posicao) {
+        const linha = parseInt(posicao[0]) - 1;
+        const fileira = posicao[1].toUpperCase().charCodeAt(0) - 65;
+        
+        if (linha < 0 || linha > 3 || fileira < 0 || fileira > 3) {
+            return false;
+        }
+        
+        if (this.assentos[linha][fileira]) {
+            this.assentos[linha][fileira] = false;
+            return true;
+        }
+        return false;
+    }
+}
+
+const cinema = new Cinema();
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+function atenderCliente() {
+    console.clear();
+    console.log("Assentos:");
+    cinema.mostrarAssentos();
+    
+    rl.question("\nInforme a posição (ex: 1A, 2B, 3C): ", (posicao) => {
+        if (cinema.comprar(posicao)) {
+            console.log("Compra confirmada para " + posicao.toUpperCase());
+        } else {
+            console.log("Assento ocupado ou inválido");
+        }
+        
+        setTimeout(() => {
+            atenderCliente();
+        }, 1000);
+    });
+}
+
+atenderCliente();
