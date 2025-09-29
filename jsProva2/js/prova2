@@ -1,0 +1,96 @@
+function criarMatriz3x3() {
+    let matriz = [];
+    console.log("Informe os valores para a matriz: ");
+    
+    for (let i = 0; i < 3; i++) {
+        let linha = [];
+        for (let j = 0; j < 3; j++) {
+            let valorValido = false;
+            while (!valorValido) {
+                let valor = prompt(`Digite o valor para a posição [${i+1}][${j+1}]:`);
+                if (valor !== null && !isNaN(valor)) {
+                    linha.push(parseInt(valor));
+                    valorValido = true;
+                } else {
+                    console.log("Por favor, digite um número inteiro válido.");
+                }
+            }
+        }
+        matriz.push(linha);
+    }
+    
+    return matriz;
+}
+
+function exibirMatriz(matriz) {
+    console.log("Matriz 3x3:");
+    for (let i = 0; i < 3; i++) {
+        let linhaStr = "";
+        for (let j = 0; j < 3; j++) {
+            linhaStr += matriz[i][j] + " ";
+        }
+        console.log(linhaStr);
+    }
+    console.log("");
+}
+
+function somatorioLinha1(matriz) {
+    let soma = 0;
+    for (let j = 0; j < 3; j++) {
+        soma += matriz[0][j];
+    }
+    return soma;
+}
+
+function multiplicacaoDiagonal(matriz) {
+    let resultado = 1;
+    for (let i = 0; i < 3; i++) {
+        resultado *= matriz[i][i];
+    }
+    return resultado;
+}
+
+function contarPares(matriz) {
+    let count = 0;
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            if (matriz[i][j] % 2 === 0) {
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
+function main() {
+    let matriz = criarMatriz3x3();
+    exibirMatriz(matriz);
+    
+    while (true) {
+        console.log("Escolha uma opção:");
+        console.log("1 - Somatório da linha 1");
+        console.log("2 - Multiplicação da diagonal");
+        console.log("3 - Quantidade de números pares");
+        console.log("4 - Encerrar programa");
+        
+        let opcao = prompt("Digite sua opção (1-4):");
+        
+        if (opcao === "1") {
+            let resultado = somatorioLinha1(matriz);
+            console.log("Somatório da linha 1: " + resultado);
+        } else if (opcao === "2") {
+            let resultado = multiplicacaoDiagonal(matriz);
+            console.log("Multiplicação da diagonal: " + resultado);
+        } else if (opcao === "3") {
+            let resultado = contarPares(matriz);
+            console.log("Quantidade de números pares: " + resultado);
+        } else if (opcao === "4") {
+            console.log("Programa encerrado!");
+            break;
+        } else {
+            console.log("Opção inválida! Digite um número de 1 a 4.");
+        }
+    }
+}
+
+main();
